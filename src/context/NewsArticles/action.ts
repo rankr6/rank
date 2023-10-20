@@ -15,15 +15,50 @@ export const fetchArticlesDetails = async (
                 },
             }
         );
-        const newsArticleDetails = await response.json();
+        const data = await response.json();
         dispatch({
             type: NewsArticleDetailAvailableAction.FETCH_ARTICLES_SUCCESS,
-            payload: newsArticleDetails,
+            payload: data,
         });
+        
     } catch (error) {
         console.log("Error fetching matches:", error);
         dispatch({
             type: NewsArticleDetailAvailableAction.FETCH_ARTICLES_FAILURE,
+            payload: "Unable to load matches",
+        });
+    }
+};
+
+export const fetchArticleeDetails = async (
+    dispatch: NewsArticleDetailDispatch,
+    articleID: string
+) => {
+    try {
+        dispatch({ type: NewsArticleDetailAvailableAction.FETCH_ARTICLEDETAILS_REQUEST });
+        const response = await fetch(
+            `${API_ENDPOINT}/articles/${articleID}`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+        if (response.ok) {
+            const data = await response.json();
+
+            dispatch({
+                type: NewsArticleDetailAvailableAction.FETCH_ARTICLEDETAILS_SUCCESS,
+                payload: data , 
+            });
+        } else {
+            throw new Error("Failed to fetch match details");
+        }
+    } catch (error) {
+        console.log("Error fetching matches:", error);
+        dispatch({
+            type: NewsArticleDetailAvailableAction.FETCH_ARTICLEDETAILS_FAILURE,
             payload: "Unable to load matches",
         });
     }

@@ -56,7 +56,7 @@ const SignupForm: React.FC = () => {
           id="userName"
           autoFocus
           {...register("userName", { required: true })}
-          className="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue"
+          className="w-full border rounded-md py-2 px-3 text-white leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue"
         />
       </div>
       <div>
@@ -66,7 +66,7 @@ const SignupForm: React.FC = () => {
           id="userEmail"
           autoFocus
           {...register("userEmail", { required: true })}
-          className="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue"
+          className="w-full border rounded-md py-2 px-3 text-white leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue"
         />
       </div>
       <div>
@@ -78,7 +78,7 @@ const SignupForm: React.FC = () => {
           id="userPassword"
           autoFocus
           {...register("userPassword", { required: true })}
-          className="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue"
+          className="w-full border rounded-md py-2 px-3 text-white leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue"
         />
         {errors.userPassword && <span>This field is required</span>}
       </div>

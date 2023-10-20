@@ -5,34 +5,34 @@ import { Fragment, useEffect, useState } from "react";
 // import { MatchScoreState } from "../../context/Livescore/type";
 // import { useMatchState } from "../../context/Livescore/context";
 import { useNavigate, useParams } from "react-router-dom";
-import { MatchScoreState, Team } from "../../context/Livescore/type";
-import { useMatchDispatch, useMatchState } from "../../context/Livescore/context";
-import { fetchMatcheDetails } from "../../context/Livescore/action";
+import { NewsArticleDetailState } from "../../context/NewsArticles/type";
+import { useNewsArticleDetailDispatch, useNewsArticleState } from "../../context/NewsArticles/context";
+import { fetchArticleeDetails } from "../../context/NewsArticles/action";
 // import { MatchDetailState } from "../../context/MatchDetail/type";
 // import { useMatchDetailState } from "../../context/MatchDetail/context";
 
-const MatchDetails = () => {
+const ArticleDetails = () => {
     let navigate = useNavigate();
     function closeModal() {
         setIsOpen(false);
         navigate("/landPage");
     }
     let [isOpen, setIsOpen] = useState(true);
-    const state: MatchScoreState = useMatchState();
+    const state: NewsArticleDetailState = useNewsArticleState();
     // const state1: MatchDetailState = useMatchDetailState();
-    const {  matchDetails } = state;
+    const {  fullArticleDetails } = state;
     // const { matchDetails } = state1;
-    const { matchID } = useParams();
-    const matches = useMatchDispatch();
-    console.log(matchID);
+    const { articleID } = useParams();
+    const articles = useNewsArticleDetailDispatch();
+    console.log(articleID);
     useEffect(() => {
-        if (matchID) {
-            fetchMatcheDetails(matches, matchID);
+        if (articleID) {
+            fetchArticleeDetails(articles, articleID);
         }
-    }, [matchID, matches]);
+    }, [articleID, articles]);
     // const selectedMatch = matchScores.find((matchScore) => `${matchScore.id}` === matchID);
-    const selectedMatch = matchDetails;
-    console.log(selectedMatch);
+    const selectedArticle = fullArticleDetails;
+    console.log(selectedArticle);
     // const selectedMatchDetail = matchDetails.find((matchDetail) => matchDetail.matchID === matchID )
 
     return (
@@ -67,25 +67,24 @@ const MatchDetails = () => {
                                         as="h3"
                                         className="text-lg font-medium leading-6 text-gray-900"
                                     >
-                                        Match Details
+                                        Article Details
                                     </Dialog.Title>
                                     <div className="mt-2 text-black">
-                                        {selectedMatch ? (
+                                        {selectedArticle ? (
                                             <>
-                                                <p>{selectedMatch.sportName}</p>
-                                                <p>{selectedMatch.name}</p>
-                                                <p>{selectedMatch.location}</p>
-                                                <div>
-                                                    {/* Display scores for each team */}
-                                                    {selectedMatch.teams.map((team: Team) => (
+                                                <p>{selectedArticle.title}</p>
+                                                <img src={selectedArticle.thumbnail} className="mb-2" alt="Article Thumbnail" />
+                                                <p>{selectedArticle.content}</p>
+                                                {/* <div>
+                                                    {selectedArticle.teams.map((team: Team) => (
                                                         <p key={team.id}>
-                                                            {team.name}: {selectedMatch.score[team.name]}
+                                                            {team.name}: {selectedArticle.sport[team.name]}
                                                         </p>
                                                     ))}
-                                                </div>
+                                                </div> */}
                                             </>
                                         ) : (
-                                            <p>Match not found.</p>
+                                            <p>Article not found.</p>
                                         )}
                                     </div>
                                     <button
@@ -104,7 +103,7 @@ const MatchDetails = () => {
     );
 };
 
-export default MatchDetails;
+export default ArticleDetails;
 
 
 

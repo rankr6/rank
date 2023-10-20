@@ -6,7 +6,7 @@ import { NewsArticleDetailReducer, initialState } from "./reducer";
 const NewsArticleDetailStateContext = createContext<NewsArticleDetailState>(initialState);
 const NewsArticleDetailDispatchContext = createContext<NewsArticleDetailDispatch>(() => {});
 
-export const CommentProvider: React.FC<React.PropsWithChildren> = ({
+export const ArticleProvider: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
   const [state, dispatch] = useReducer(NewsArticleDetailReducer, initialState);

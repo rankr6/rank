@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {  createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 
 // import AccountLayout from "../layouts/account"
 // import ProtectedRoute from "./ProtectedRoute"
@@ -9,6 +9,9 @@ import Logout from "../pages/logout";
 import NotFound from "../pages/Notfound";
 import LandPage from "../pages/landPage/landPage";
 import MatchDetasils from "../pages/LiveScore/MatchDetails";
+import { CommentProvider } from "../context/Livescore/context";
+import { ArticleProvider } from "../context/NewsArticles/context";
+import ArticleDetails from "../pages/NewsArticle/ArticleDetails";
 
 const router = createBrowserRouter([
   {
@@ -35,14 +38,25 @@ const router = createBrowserRouter([
   {
     path: "/landPage",
     element: (
-        <LandPage />
-    )},
-    {
-      path: "/matches/:matchID",
-      element:(
+      <LandPage />
+    )
+  },
+  {
+    path: "/matches/:matchID",
+    element: (
+      <CommentProvider>
         <MatchDetasils />
-      )
-    }
+      </CommentProvider>
+    )
+  },
+  {
+    path: "/articles/:articleID",
+    element: (
+      <ArticleProvider>
+        <ArticleDetails />
+      </ArticleProvider>
+    )
+  }
   //   children: [
   //     {
   //       path: "projects",
@@ -74,15 +88,15 @@ const router = createBrowserRouter([
   //         },
   //       ],
   //     },
-      // {
-      //   path: "members",
-      //   element: (<Members />)
-      // },
-      // { index: true, element: <Navigate to="/account/projects" replace /> },
-      // {
-      //   path: "projects",
-      //   element: (<Projects />)
-      // },
-    ],)
+  // {
+  //   path: "members",
+  //   element: (<Members />)
+  // },
+  // { index: true, element: <Navigate to="/account/projects" replace /> },
+  // {
+  //   path: "projects",
+  //   element: (<Projects />)
+  // },
+],)
 
 export default router;

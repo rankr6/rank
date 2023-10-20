@@ -5,7 +5,6 @@ import { MatchScoreAvailableAction, MatchScoreDispatch } from "./type";
 export const fetchMatches = async (
     dispatch: MatchScoreDispatch,
 ) => {
-    const token = localStorage.getItem("authToken") ?? "";
     try {
         dispatch({ type: MatchScoreAvailableAction.FETCH_MATCHS_REQUEST });
         const response = await fetch(
@@ -14,14 +13,13 @@ export const fetchMatches = async (
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
                 },
             }
         );
-        let matchScores = await response.json();
+        let data = await response.json();
         dispatch({
             type: MatchScoreAvailableAction.FETCH_MATCHS_SUCCESS,
-            payload: matchScores,
+            payload: data.matches,
         });
     } catch (error) {
         console.log("Error fetching matches:", error);
@@ -32,33 +30,36 @@ export const fetchMatches = async (
     }
 };
 
-// export const fetchMatcheDetails = async (
-//     dispatch: MatchScoreDispatch,
-//     matchID:string
-// ) => {
-//     const token = localStorage.getItem("authToken") ?? "";
-//     try {
-//         dispatch({ type: MatchScoreAvailableAction.FETCH_MATCHS_REQUEST });
-//         const response = await fetch(
-//             `${API_ENDPOINT}/matches/${matchID}`,
-//             {
-//                 method: "GET",
-//                 headers: {
-//                     "Content-Type": "application/json",
-//                     Authorization: `Bearer ${token}`,
-//                 },
-//             }
-//         );
-//         let matchScores = await response.json();
-//         dispatch({
-//             type: MatchScoreAvailableAction.FETCH_MATCHS_SUCCESS,
-//             payload: matchScores,
-//         });
-//     } catch (error) {
-//         console.log("Error fetching matches:", error);
-//         dispatch({
-//             type: MatchScoreAvailableAction.FETCH_MATCHS_FAILURE,
-//             payload: "Unable to load matches",
-//         });
-//     }
-// };
+export const fetchMatcheDetails = async (
+    dispatch: MatchScoreDispatch,
+    matchID: string
+) => {
+    try {
+        dispatch({ type: MatchScoreAvailableAction.FETCH_MATCHSCORES_REQUEST });
+        const response = await fetch(
+            `${API_ENDPOINT}/matches/${matchID}`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+        if (response.ok) {
+            const data = await response.json();
+
+            dispatch({
+                type: MatchScoreAvailableAction.FETCH_MATCHSCORES_SUCCESS,
+                payload: data , 
+            });
+        } else {
+            throw new Error("Failed to fetch match details");
+        }
+    } catch (error) {
+        console.log("Error fetching matches:", error);
+        dispatch({
+            type: MatchScoreAvailableAction.FETCH_MATCHSCORES_FAILURE,
+            payload: "Unable to load matches",
+        });
+    }
+};

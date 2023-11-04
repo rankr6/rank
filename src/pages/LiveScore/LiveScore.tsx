@@ -4,6 +4,7 @@ import { fetchMatches } from "../../context/Livescore/action";
 import { Link } from "react-router-dom";
 
 const MatchList = () => {
+  
   const state = useMatchState();
   const { matchScores, isLoading, isError, errorMessage } = state;
   const matches = useMatchDispatch();
@@ -47,7 +48,13 @@ const MatchList = () => {
                   <div className="text-left">
                     {match.teams.map((team) => (
                       <div key={team.id}>
-                        {team.name}
+                        {team.name}  {match.score
+                          ? Object.keys(match.score).map((teamName) => (
+                            <div key={teamName}>
+                              {teamName}
+                            </div>
+                          ))
+                          : ''}
                       </div>
                     ))}
                   </div>

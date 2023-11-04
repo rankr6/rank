@@ -1,4 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
+/* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useContext, useReducer } from "react";
 import { NewsArticleDetailDispatch, NewsArticleDetailState } from "./type";
 import { NewsArticleDetailReducer, initialState } from "./reducer";
@@ -21,4 +22,5 @@ export const ArticleProvider: React.FC<React.PropsWithChildren> = ({
 
 export const useNewsArticleState = () => useContext(NewsArticleDetailStateContext);
 export const useNewsArticleDetailDispatch = () => useContext(NewsArticleDetailDispatchContext);
+
 

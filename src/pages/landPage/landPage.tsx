@@ -4,6 +4,7 @@ import MatchList from "../LiveScore/LiveScore";
 import NewsArticle from "../NewsArticle";
 import { CommentProvider } from "../../context/Livescore/context";
 import { ArticleProvider } from "../../context/NewsArticles/context";
+import { Outlet } from "react-router-dom";
 // import NewsArticle from "../NewsArticle";
 
 const LandPage: React.FC = () => {
@@ -13,11 +14,13 @@ const LandPage: React.FC = () => {
             <div>
                 <CommentProvider>
                     <MatchList />
+                    <Outlet />
                 </CommentProvider>
             </div>
             <div>
                 <ArticleProvider>
                     <NewsArticle />
+                    <Outlet />
                 </ArticleProvider>
             </div>
         </div>

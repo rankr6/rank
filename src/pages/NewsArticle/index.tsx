@@ -1,15 +1,19 @@
 import React from 'react';
 import NewsArticle from './NewsArticles';
-// Just import the file
 
 const NewsArticlePage: React.FC = () => {
-    // And use it after the h1 tag
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
-            <div className="max-w-md w-full px-6 py-8 bg-white rounded-lg shadow-md">
-                <NewsArticle />
+            <div className="w-full max-w-screen-xl mx-auto p-4 grid grid-cols-4 gap-4">
+                <div className="col-span-3">
+                    <NewsArticle />
+                </div>
+
+                <div className="col-span-1">
+                </div>
             </div>
         </div>
     );
 }
+
 export default NewsArticlePage;

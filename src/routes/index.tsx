@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { createBrowserRouter } from "react-router-dom";
+import { Outlet, createBrowserRouter } from "react-router-dom";
 
 // import AccountLayout from "../layouts/account"
 // import ProtectedRoute from "./ProtectedRoute"
@@ -46,6 +46,7 @@ const router = createBrowserRouter([
     element: (
       <CommentProvider>
         <MatchDetasils />
+        <Outlet/>
       </CommentProvider>
     )
   },
@@ -54,6 +55,7 @@ const router = createBrowserRouter([
     element: (
       <ArticleProvider>
         <ArticleDetails />
+        <Outlet/>
       </ArticleProvider>
     )
   }

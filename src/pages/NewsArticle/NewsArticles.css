@@ -1,0 +1,23 @@
+.navbar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.navbar-item {
+    background-color: #f0f0f0;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.navbar-item:hover {
+    background-color: #e0e0e0;
+}
+
+.navbar-item.active {
+    background-color: #007bff;
+    color: #fff;
+}

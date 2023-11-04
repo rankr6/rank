@@ -1,13 +1,13 @@
 import { NewsArticleDetailActions, NewsArticleDetailAvailableAction, NewsArticleDetailState } from "./type";
 
 export const initialState: NewsArticleDetailState = {
-    newsArticleDetails: [],
+    newsArticleDetails: [], 
     fullArticleDetails: null,
     isLoading: false,
     isError: false,
     errorMessage: "",
+    sports: [],
 };
-
 export const NewsArticleDetailReducer = (
     state: NewsArticleDetailState = initialState,
     action: NewsArticleDetailActions
@@ -30,6 +30,18 @@ export const NewsArticleDetailReducer = (
         case NewsArticleDetailAvailableAction.FETCH_ARTICLEDETAILS_SUCCESS:
             return { ...state, isLoading: false, fullArticleDetails: action.payload };
         case NewsArticleDetailAvailableAction.FETCH_ARTICLEDETAILS_FAILURE:
+            return {
+                ...state,
+                isLoading: false,
+                isError: true,
+                errorMessage: action.payload,
+            };
+
+        case NewsArticleDetailAvailableAction.FETCH_SPORTS_REQUEST:
+            return { ...state, isLoading: true };
+        case NewsArticleDetailAvailableAction.FETCH_SPORTS_SUCCESS:
+            return { ...state, isLoading: false, sports: action.payload };
+        case NewsArticleDetailAvailableAction.FETCH_SPORTS_FAILURE:
             return {
                 ...state,
                 isLoading: false,

@@ -20,7 +20,7 @@ export const fetchArticlesDetails = async (
             type: NewsArticleDetailAvailableAction.FETCH_ARTICLES_SUCCESS,
             payload: data,
         });
-        
+
     } catch (error) {
         console.log("Error fetching matches:", error);
         dispatch({
@@ -50,7 +50,7 @@ export const fetchArticleeDetails = async (
 
             dispatch({
                 type: NewsArticleDetailAvailableAction.FETCH_ARTICLEDETAILS_SUCCESS,
-                payload: data , 
+                payload: data,
             });
         } else {
             throw new Error("Failed to fetch match details");
@@ -63,3 +63,30 @@ export const fetchArticleeDetails = async (
         });
     }
 };
+
+
+
+
+export const fetchSports = async (dispatch: NewsArticleDetailDispatch) => {
+    try {
+        dispatch({ type: NewsArticleDetailAvailableAction.FETCH_SPORTS_REQUEST });
+        const response = await fetch(`${API_ENDPOINT}/sports`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        const data = await response.json();
+        dispatch({
+            type: NewsArticleDetailAvailableAction.FETCH_SPORTS_SUCCESS,
+            payload: data.sports,
+        });
+    } catch (error) {
+        console.log("Error fetching sports:", error);
+        dispatch({
+            type: NewsArticleDetailAvailableAction.FETCH_SPORTS_FAILURE,
+            payload: "Unable to load sports",
+        });
+    }
+};
+

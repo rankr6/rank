@@ -1,9 +1,10 @@
 export interface NewsArticleDetailState {
     newsArticleDetails: NewsArticleDetail[];
-    fullArticleDetails: FullArticleDetail | null ;
+    fullArticleDetails: FullArticleDetail | null;
     isLoading: boolean;
     isError: boolean;
     errorMessage: string;
+    sports: SportList[];
 }
 
 export interface NewsArticleDetail {
@@ -12,6 +13,7 @@ export interface NewsArticleDetail {
     summary: string;
     thumbnail: string;
     date: Date;
+    sport: Sport;
 }
 
 export interface FullArticleDetail {
@@ -19,13 +21,18 @@ export interface FullArticleDetail {
     title: string;
     summary: string;
     thumbnail: string;
-    sport: Sport;
+    sport: SportList;
     teams: Team[];
     date: Date;
     content: string;
 }
 
 export interface Team {
+    id: string;
+    name: string;
+}
+
+export interface SportList {
     id: string;
     name: string;
 }
@@ -42,6 +49,9 @@ export enum NewsArticleDetailAvailableAction {
     FETCH_ARTICLEDETAILS_REQUEST = "FETCH_ARTICLEDETAILS_REQUEST",
     FETCH_ARTICLEDETAILS_FAILURE = "FETCH_ARTICLEDETAILS_FAILURE",
     FETCH_ARTICLEDETAILS_SUCCESS = "FETCH_ARTICLEDETAILS_SUCCESS",
+    FETCH_SPORTS_REQUEST = "FETCH_SPORTS_REQUEST",
+    FETCH_SPORTS_SUCCESS = "FETCH_SPORTS_SUCCESS",
+    FETCH_SPORTS_FAILURE = "FETCH_SPORTS_FAILURE",
 }
 
 export type NewsArticleDetailActions =
@@ -51,5 +61,9 @@ export type NewsArticleDetailActions =
     | { type: NewsArticleDetailAvailableAction.FETCH_ARTICLEDETAILS_REQUEST }
     | { type: NewsArticleDetailAvailableAction.FETCH_ARTICLEDETAILS_SUCCESS; payload: FullArticleDetail }
     | { type: NewsArticleDetailAvailableAction.FETCH_ARTICLEDETAILS_FAILURE; payload: string }
+    | { type: NewsArticleDetailAvailableAction.FETCH_SPORTS_REQUEST }
+    | { type: NewsArticleDetailAvailableAction.FETCH_SPORTS_SUCCESS, payload: SportList[] }
+    | { type: NewsArticleDetailAvailableAction.FETCH_SPORTS_FAILURE, payload: string }
+
 
 export type NewsArticleDetailDispatch = React.Dispatch<NewsArticleDetailActions>;

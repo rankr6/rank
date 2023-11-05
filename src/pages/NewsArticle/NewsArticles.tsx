@@ -92,7 +92,6 @@ const NewsArticle = () => {
               </div>
             </div>
             <div className="w-1/4">
-              {/* Set a fixed 1:1 aspect ratio for the thumbnail box */}
               <div className="relative h-0" style={{ paddingBottom: "100%" }}>
                 <img
                   src={article.thumbnail}

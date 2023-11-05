@@ -12,9 +12,19 @@
   padding: 20px;
 }
 
+/* Mobile-Friendly Styles */
+@media (max-width: 768px) {
+  #root {
+    padding: 10px; /* Reduce padding for smaller screens */
+  }
+  
+  .logo {
+    height: 4em; /* Adjust logo height for smaller screens */
+    padding: 1em;
+  }
+}
+
 .logo {
-  height: 6em;
-  padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
 }

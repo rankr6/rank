@@ -5,7 +5,6 @@ import NewsArticle from "../NewsArticle";
 import { CommentProvider } from "../../context/Livescore/context";
 import { ArticleProvider } from "../../context/NewsArticles/context";
 import { Outlet } from "react-router-dom";
-// import NewsArticle from "../NewsArticle";
 
 const LandPage: React.FC = () => {
     return (<>

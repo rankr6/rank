@@ -1,22 +1,19 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Outlet, createBrowserRouter } from "react-router-dom";
-
-// import AccountLayout from "../layouts/account"
-// import ProtectedRoute from "./ProtectedRoute"
 import Signin from "../pages/signin"
 import Signup from "../pages/signup"
 import Logout from "../pages/logout";
 import NotFound from "../pages/Notfound";
-import LandPage from "../pages/landPage/landPage";
-import MatchDetasils from "../pages/LiveScore/MatchDetails";
 import { CommentProvider } from "../context/Livescore/context";
 import { ArticleProvider } from "../context/NewsArticles/context";
 import ArticleDetails from "../pages/NewsArticle/ArticleDetails";
+import LandPageLayout from "../layouts/landPage";
+import MatchDetails from "../pages/LiveScore/MatchDetails";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <LandPage />
+    element: <LandPageLayout />
   },
   {
     path: "/signin",
@@ -34,24 +31,21 @@ const router = createBrowserRouter([
     path: "/notfound",
     element: <NotFound />
   },
-  // Protected Routes
   {
     path: "/landPage",
-    element: (
-      <LandPage />
-    )
+    element: <LandPageLayout />, 
   },
   {
-    path: "/matches/:matchID",
+    path: "matches/:matchID", 
     element: (
       <CommentProvider>
-        <MatchDetasils />
+        <MatchDetails />
         <Outlet/>
       </CommentProvider>
     )
   },
   {
-    path: "/articles/:articleID",
+    path: "articles/:articleID",
     element: (
       <ArticleProvider>
         <ArticleDetails />
@@ -59,46 +53,8 @@ const router = createBrowserRouter([
       </ArticleProvider>
     )
   }
-  //   children: [
-  //     {
-  //       path: "projects",
-  //       element: <ProjectContainer />,
-  //       children: [
-  //         { index: true, element: <Projects /> },
-  //         {
-  //           path: ":projectID",
-  //           element: <ProjectDetails />,
-  //           children: [
-  //             { index: true,element:<></>},
-  //             {
-  //               path: "tasks",
-  //               children: [
-  //                 { index: true, element: <Navigate to="../" /> },
-  //                 {
-  //                   path: "new",
-  //                   element: <NewTask />,
-  //                 },
-  //                 {
-  //                   path: ":taskID",
-  //                   children: [
-  //                     { index: true, element: <TaskDetailsContainer /> },
-  //                   ],
-  //                 },
-  //               ],
-  //             },
-  //           ],
-  //         },
-  //       ],
-  //     },
-  // {
-  //   path: "members",
-  //   element: (<Members />)
-  // },
-  // { index: true, element: <Navigate to="/account/projects" replace /> },
-  // {
-  //   path: "projects",
-  //   element: (<Projects />)
-  // },
-],)
+]);
 
 export default router;
+
+

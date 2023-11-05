@@ -1,8 +1,10 @@
+
 /* eslint-disable react-hooks/rules-of-hooks */
-import { UserCircleIcon } from '@heroicons/react/24/outline'
-import Logo from "../../assets/images/logo.png"
-import { useState,  Fragment, useEffect } from 'react'
-import { Disclosure, Menu, Transition } from '@headlessui/react'
+
+import Logo from "../../assets/images/logo.png";
+import { useState, Fragment, useEffect } from 'react';
+import { Disclosure, Menu, Transition } from '@headlessui/react';
+import { UserCircleIcon, CogIcon } from "@heroicons/react/20/solid";
 
 const classNames = (...classes: string[]): string => classes.filter(Boolean).join(' ');
 
@@ -18,6 +20,10 @@ const Appbar = () => {
       { name: 'Sign in', href: '/signin' },
       { name: 'Sign up', href: '/signup' },
     ]);
+
+  const [settingsNavigation] = useState([
+    { name: 'Settings', href: '/settings' },
+  ]);
 
   const updateUserNavigation = (isAuthenticated: boolean) => {
     const updatedNavigation = isAuthenticated
@@ -35,18 +41,6 @@ const Appbar = () => {
   useEffect(() => {
     updateUserNavigation(authenticated);
   }, [authenticated]);
-  // const { theme, setTheme } = useContext(ThemeContext)
-  // const [enabled, setEnabled] = useState(theme === 'dark')
-  // const toggleTheme = () => {
-  //   let newTheme = ''
-  //   if (theme === 'light') {
-  //     newTheme = 'dark'
-  //   } else {
-  //     newTheme = 'light'
-  //   }
-  //   setEnabled(!enabled)
-  //   setTheme(newTheme)
-  // }
 
   return (
     <>
@@ -62,17 +56,13 @@ const Appbar = () => {
                     alt="Smarter Tasks"
                   />
                 </div>
-
               </div>
-              <div className="hidden md:block">
-                <div className="ml-4 flex items-center md:ml-6">
-                  
-                  <Menu as="div" className="relative ml-3">
-                    <div>
-                      <Menu.Button className="rounded-full bg-white p-1 text-gray-400 hover:text-blue-600">
-                        <UserCircleIcon className="h-6 w-6" aria-hidden="true" />
-                      </Menu.Button>
-                    </div>
+              <div className="hidden md:flex items-center ml-4 space-x-4">
+                <div className="relative">
+                  <Menu>
+                    <Menu.Button className="p-2 text-gray-600 hover:text-blue-600 rounded-full focus:outline-none">
+                      <CogIcon className="h-6 w-6" aria-hidden="true" />
+                    </Menu.Button>
                     <Transition
                       as={Fragment}
                       enter="transition ease-out duration-100"
@@ -82,7 +72,41 @@ const Appbar = () => {
                       leaveFrom="transform opacity-100 scale-100"
                       leaveTo="transform opacity-0 scale-95"
                     >
-                      <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      <Menu.Items className="absolute right-0 z-10 w-48 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                        {settingsNavigation.map((item) => (
+                          <Menu.Item key={item.name}>
+                            {({ active }) => (
+                              <a
+                                href={item.href}
+                                className={classNames(
+                                  active ? 'bg-gray-100' : '',
+                                  'block px-4 py-2 text-sm text-pink-700'
+                                )}
+                              >
+                                {item.name}
+                              </a>
+                            )}
+                          </Menu.Item>
+                        ))}
+                      </Menu.Items>
+                    </Transition>
+                  </Menu>
+                </div>
+                <div className="relative">
+                  <Menu>
+                    <Menu.Button className="p-2 text-gray-600 hover:text-blue-600 rounded-full focus:outline-none">
+                      <UserCircleIcon className="h-6 w-6" aria-hidden="true" />
+                    </Menu.Button>
+                    <Transition
+                      as={Fragment}
+                      enter="transition ease-out duration-100"
+                      enterFrom="transform opacity-0 scale-95"
+                      enterTo="transform opacity-100 scale-100"
+                      leave="transition ease-in duration-75"
+                      leaveFrom="transform opacity-100 scale-100"
+                      leaveTo="transform opacity-0 scale-95"
+                    >
+                      <Menu.Items className="absolute right-0 z-10 w-48 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                         {userNavigation.map((item) => (
                           <Menu.Item key={item.name}>
                             {({ active }) => (
@@ -108,7 +132,7 @@ const Appbar = () => {
         )}
       </Disclosure>
     </>
-  )
-}
+  );
+};
 
 export default Appbar;

@@ -1,13 +1,29 @@
 import { Outlet } from "react-router-dom"
 import Appbar from "./Appbar"
+import { CommentProvider } from "../../context/Livescore/context"
+import MatchList from "../../pages/LiveScore/LiveScore"
+import { ArticleProvider } from "../../context/NewsArticles/context"
+import NewsArticle from "../../pages/NewsArticle"
 
-const AccountLayout = () => {
+const LandPageLayout = () => {
 
   return (
     <>
       <Appbar />
       <main>
-        <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+        <div >
+        <div>
+                <CommentProvider>
+                    <MatchList />
+                    <Outlet />
+                </CommentProvider>
+            </div>
+            <div>
+                <ArticleProvider>
+                    <NewsArticle />
+                    <Outlet />
+                </ArticleProvider>
+            </div>
           <Outlet />
         </div>
       </main>
@@ -15,4 +31,4 @@ const AccountLayout = () => {
   )
 }
 
-export default AccountLayout
+export default LandPageLayout

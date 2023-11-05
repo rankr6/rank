@@ -1,20 +1,14 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { Outlet, createBrowserRouter } from "react-router-dom";
-import Signin from "../pages/signin"
-import Signup from "../pages/signup"
+import { Navigate,  createBrowserRouter } from "react-router-dom";
+import Signin from "../pages/signin";
+import Signup from "../pages/signup";
 import Logout from "../pages/logout";
 import NotFound from "../pages/Notfound";
-import { CommentProvider } from "../context/Livescore/context";
-import { ArticleProvider } from "../context/NewsArticles/context";
-import ArticleDetails from "../pages/NewsArticle/ArticleDetails";
 import LandPageLayout from "../layouts/landPage";
-import MatchDetails from "../pages/LiveScore/MatchDetails";
+import MatchDetailsContainer from "../pages/LiveScore/MatchDetailContainer";
+import ArticleDetailsContainer from "../pages/NewsArticle/ArticleDetailContainer";
+import UserPreferenceContainer from "../pages/UserPreference/PreferencesContainer";
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <LandPageLayout />
-  },
   {
     path: "/signin",
     element: <Signin />
@@ -32,29 +26,27 @@ const router = createBrowserRouter([
     element: <NotFound />
   },
   {
+    path: "/",
+    element: <LandPageLayout />,
+    children: [
+      {
+        path: "matches/:matchID",
+        element: <MatchDetailsContainer />
+      },
+      {
+        path: "articles/:articleID",
+        element: <ArticleDetailsContainer/>
+      },
+      {
+        path: "userPreference",
+        element:<UserPreferenceContainer/>
+      },
+    ]
+  },
+  {
     path: "/landPage",
-    element: <LandPageLayout />, 
-  },
-  {
-    path: "matches/:matchID", 
-    element: (
-      <CommentProvider>
-        <MatchDetails />
-        <Outlet/>
-      </CommentProvider>
-    )
-  },
-  {
-    path: "articles/:articleID",
-    element: (
-      <ArticleProvider>
-        <ArticleDetails />
-        <Outlet/>
-      </ArticleProvider>
-    )
+    element: <Navigate to="/" replace />
   }
 ]);
 
 export default router;
-
-

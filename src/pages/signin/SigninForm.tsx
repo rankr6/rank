@@ -21,20 +21,29 @@ const SigninForm: React.FC = () => {
             });
 
             if (!response.ok) {
-                throw new Error("Sign-in failed");
+                console.error("Sign-in failed. Status code:", response.status);
+                // Add more specific error handling if needed
+                return;
             }
-
-            console.log("Sign-in successful");
 
             const responseData = await response.json();
 
-            localStorage.setItem("authToken", responseData.token);
+            if (!responseData || !responseData.auth_token) {
+                console.error("Sign-in failed. Invalid response data:", responseData);
+                // Add more specific error handling if needed
+                return;
+            }
+
+            localStorage.setItem("authToken", responseData.auth_token);
             localStorage.setItem("userData", JSON.stringify(responseData.user));
+            console.log("Sign-in successful");
+
             navigate("/landPage");
         } catch (error) {
             console.error("Sign-in failed:", error);
         }
     };
+
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>

@@ -2,26 +2,20 @@
 /* eslint-disable prefer-const */
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
-// import { MatchScoreState } from "../../context/Livescore/type";
-// import { useMatchState } from "../../context/Livescore/context";
 import { useNavigate, useParams } from "react-router-dom";
 import { NewsArticleDetailState } from "../../context/NewsArticles/type";
 import { useNewsArticleDetailDispatch, useNewsArticleState } from "../../context/NewsArticles/context";
 import { fetchArticleeDetails } from "../../context/NewsArticles/action";
-// import { MatchDetailState } from "../../context/MatchDetail/type";
-// import { useMatchDetailState } from "../../context/MatchDetail/context";
 
 const ArticleDetails = () => {
     let navigate = useNavigate();
     function closeModal() {
         setIsOpen(false);
-        navigate("/landPage");
+        navigate("/");
     }
     let [isOpen, setIsOpen] = useState(true);
     const state: NewsArticleDetailState = useNewsArticleState();
-    // const state1: MatchDetailState = useMatchDetailState();
     const {  fullArticleDetails } = state;
-    // const { matchDetails } = state1;
     const { articleID } = useParams();
     const articles = useNewsArticleDetailDispatch();
     console.log(articleID);
@@ -30,10 +24,8 @@ const ArticleDetails = () => {
             fetchArticleeDetails(articles, articleID);
         }
     }, [articleID, articles]);
-    // const selectedMatch = matchScores.find((matchScore) => `${matchScore.id}` === matchID);
     const selectedArticle = fullArticleDetails;
     console.log(selectedArticle);
-    // const selectedMatchDetail = matchDetails.find((matchDetail) => matchDetail.matchID === matchID )
 
     return (
         <>

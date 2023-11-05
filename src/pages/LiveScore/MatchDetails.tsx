@@ -13,10 +13,7 @@ import { fetchMatcheDetails } from "../../context/Livescore/action";
 
 const MatchDetails = () => {
     let navigate = useNavigate();
-    function closeModal() {
-        setIsOpen(false);
-        navigate("/landPage");
-    }
+    
     let [isOpen, setIsOpen] = useState(true);
     const state: MatchScoreState = useMatchState();
     // const state1: MatchDetailState = useMatchDetailState();
@@ -25,14 +22,20 @@ const MatchDetails = () => {
     const { matchID } = useParams();
     const matches = useMatchDispatch();
     console.log(matchID);
+    const selectedMatch = matchDetails;
+    console.log(selectedMatch);
+    function closeModal() {
+        setIsOpen(false);
+        navigate("/");
+    }
     useEffect(() => {
         if (matchID) {
             fetchMatcheDetails(matches, matchID);
         }
     }, [matchID, matches]);
+    
     // const selectedMatch = matchScores.find((matchScore) => `${matchScore.id}` === matchID);
-    const selectedMatch = matchDetails;
-    console.log(selectedMatch);
+    
     // const selectedMatchDetail = matchDetails.find((matchDetail) => matchDetail.matchID === matchID )
 
     return (

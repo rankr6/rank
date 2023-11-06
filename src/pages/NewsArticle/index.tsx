@@ -1,5 +1,6 @@
 import React from 'react';
 import NewsArticle from './NewsArticles';
+import FavouriteListArticles from '../FavoriteItem/FavoriteItem';
 
 const NewsArticlePage: React.FC = () => {
     return (
@@ -10,6 +11,7 @@ const NewsArticlePage: React.FC = () => {
                 </div>
 
                 <div className="col-span-1">
+                        <FavouriteListArticles />
                 </div>
             </div>
         </div>

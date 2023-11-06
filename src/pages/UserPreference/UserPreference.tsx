@@ -1,10 +1,11 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { useUserPreferenceDispatch, useUserPreferenceState } from "../../context/Preference/context";
 import { UserPreferenceState } from "../../context/Preference/type";
-import { fetchTeams, fetchSports, fetchUserPreferences } from "../../context/Preference/action";
+import { fetchTeams, fetchSports, fetchUserPreferences, patchUserPreference } from "../../context/Preference/action";
 import { useNavigate } from "react-router-dom";
+
 
 
 const UserPreferences = () => {
@@ -23,7 +24,12 @@ const UserPreferences = () => {
     } = state;
 
     useEffect(() => {
-        fetchUserPreferences(userPreferenceDispatch);
+        fetchUserPreferences(userPreferenceDispatch)
+            .then((data) => {
+                const { sports, teams } = data.preferences;
+                setSelectedSports(sports);
+                setSelectedTeams(teams);
+            });
         fetchSports(userPreferenceDispatch);
         fetchTeams(userPreferenceDispatch);
     }, [userPreferenceDispatch]);
@@ -32,8 +38,6 @@ const UserPreferences = () => {
         setIsOpen(false);
         navigate("/");
     }
-    
-    
 
     if (isLoading) {
         return <div className="text-left p-4">Loading...</div>;
@@ -46,28 +50,38 @@ const UserPreferences = () => {
     const sportsDataList = sports || [];
     const teamsDataList = teams || [];
 
-    const handleSportChange = (sportId: string) => {
+    const handleSportChange = (sport: string) => {
         setSelectedSports((prevSelectedSports) => {
-            if (prevSelectedSports.includes(sportId)) {
-                return prevSelectedSports.filter((id) => id !== sportId);
+            if (!prevSelectedSports) {
+                return [sport];
+            }
+            if (prevSelectedSports.includes(sport)) {
+                return prevSelectedSports.filter((item) => item !== sport);
             } else {
-                return [...prevSelectedSports, sportId];
+                return [...prevSelectedSports, sport];
             }
         });
-    };
+    }
 
-    const handleTeamChange = (teamId: string) => {
+    const handleTeamChange = (team: string) => {
         setSelectedTeams((prevSelectedTeams) => {
-            if (prevSelectedTeams.includes(teamId)) {
-                return prevSelectedTeams.filter((id) => id !== teamId);
+            if (!prevSelectedTeams) {
+                return [team];
+            }
+            if (prevSelectedTeams.includes(team)) {
+                return prevSelectedTeams.filter((item) => item !== team);
             } else {
-                return [...prevSelectedTeams, teamId];
+                return [...prevSelectedTeams, team];
             }
         });
-    };
+    }
 
     const handleSavePreferences = () => {
-        // Handle saving user preferences
+        patchUserPreference(userPreferenceDispatch, selectedSports, selectedTeams);
+        console.log('Preferences saved successfully');
+        console.log(selectedSports); // Move console.log here
+        console.log(selectedTeams);  // Move console.log here
+        closeModal();
     };
 
     return (
@@ -111,6 +125,7 @@ const UserPreferences = () => {
                                     <div className="space-y-2">
                                         {sportsDataList.map((sport) => (
                                             <label key={sport.id} className="inline-flex items-center">
+                                                {selectedSports && selectedSports.includes(sport.id) ? (
                                                 <input
                                                     type="checkbox"
                                                     className="form-checkbox text-blue-500"
@@ -118,6 +133,12 @@ const UserPreferences = () => {
                                                     checked={selectedSports.includes(sport.id)}
                                                     onChange={() => handleSportChange(sport.id)}
                                                 />
+                                                ) : <input
+                                                type="checkbox"
+                                                className="form-checkbox text-blue-500"
+                                                value={sport.name}
+                                                onChange={() => handleSportChange(sport.id)}
+                                            />}
                                                 <span className="ml-2 mr-4">{sport.name}</span>
                                             </label>
                                         ))}
@@ -128,6 +149,7 @@ const UserPreferences = () => {
                                     <div className="space-y-2">
                                         {teamsDataList.map((team) => (
                                             <label key={team.id} className="inline-flex items-center">
+                                                {selectedTeams && selectedTeams.includes(team.id) ? (
                                                 <input
                                                     type="checkbox"
                                                     className="form-checkbox text-blue-500"
@@ -135,6 +157,12 @@ const UserPreferences = () => {
                                                     checked={selectedTeams.includes(team.id)}
                                                     onChange={() => handleTeamChange(team.id)}
                                                 />
+                                                ) : <input
+                                                type="checkbox"
+                                                className="form-checkbox text-blue-500"
+                                                value={team.name}
+                                                onChange={() => handleTeamChange(team.id)}
+                                            />}
                                                 <span className="ml-2 mr-4">{team.name}</span>
                                             </label>
                                         ))}

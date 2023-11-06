@@ -1,7 +1,7 @@
 import { UserPreferenceActions, UserPreferenceAvailableAction, UserPreferenceState } from "./type";
 
 export const initialState: UserPreferenceState = {
-    preferences: [], 
+    preferences: [],
     isLoading: false,
     isError: false,
     errorMessage: "",
@@ -42,6 +42,18 @@ export const UserPreferenceReducer = (
         case UserPreferenceAvailableAction.FETCH_TEAMS_SUCCESS:
             return { ...state, isLoading: false, teams: action.payload };
         case UserPreferenceAvailableAction.FETCH_TEAMS_FAILURE:
+            return {
+                ...state,
+                isLoading: false,
+                isError: true,
+                errorMessage: action.payload,
+            };
+
+        case UserPreferenceAvailableAction.PATCH_USERPREFERENCES_REQUEST:
+            return { ...state, isLoading: true };
+        case UserPreferenceAvailableAction.PATCH_USERPREFERENCES_SUCCESS:
+            return { ...state, isLoading: false };
+        case UserPreferenceAvailableAction.PATCH_USERPREFERENCES_FAILURE:
             return {
                 ...state,
                 isLoading: false,

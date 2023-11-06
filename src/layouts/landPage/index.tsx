@@ -1,9 +1,9 @@
-import { Outlet } from "react-router-dom"
-import Appbar from "./Appbar"
 import { CommentProvider } from "../../context/Livescore/context"
-import MatchList from "../../pages/LiveScore/LiveScore"
 import { ArticleProvider } from "../../context/NewsArticles/context"
+import MatchList from "../../pages/LiveScore/LiveScore"
 import NewsArticle from "../../pages/NewsArticle"
+import Appbar from "./Appbar"
+import { Outlet } from "react-router-dom"
 
 const LandPageLayout = () => {
 
@@ -11,21 +11,17 @@ const LandPageLayout = () => {
     <>
       <Appbar />
       <main>
-        <div >
+        <Outlet/>
         <div>
-                <CommentProvider>
-                    <MatchList />
-                    <Outlet />
-                </CommentProvider>
-            </div>
-            <div>
-                <ArticleProvider>
-                    <NewsArticle />
-                    <Outlet />
-                </ArticleProvider>
-            </div>
-          <Outlet />
-        </div>
+            <CommentProvider>
+              <MatchList />
+            </CommentProvider>
+          </div>
+          <div>
+            <ArticleProvider>
+              <NewsArticle />
+            </ArticleProvider>
+          </div>
       </main>
     </>
   )

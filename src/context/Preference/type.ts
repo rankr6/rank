@@ -8,7 +8,7 @@ export interface UserPreferenceState {
 }
 
 export interface UserPreference {
-    sports: Sport[],
+    sports: string[],
     teams: Team[],
 }
 
@@ -33,6 +33,9 @@ export enum UserPreferenceAvailableAction {
     FETCH_TEAMS_REQUEST = "FETCH_TEAMS_REQUEST",
     FETCH_TEAMS_SUCCESS = "FETCH_TEAMS_SUCCESS",
     FETCH_TEAMS_FAILURE = "FETCH_TEAMS_FAILURE",
+    PATCH_USERPREFERENCES_REQUEST = "PATCH_USERPREFERENCES_REQUEST",
+    PATCH_USERPREFERENCES_SUCCESS = "PATCH_USERPREFERENCES_SUCCESS",
+    PATCH_USERPREFERENCES_FAILURE = "PATCH_USERPREFERENCES_FAILURE",
 }
 
 export type UserPreferenceActions =
@@ -45,5 +48,8 @@ export type UserPreferenceActions =
     | { type: UserPreferenceAvailableAction.FETCH_TEAMS_REQUEST }
     | { type: UserPreferenceAvailableAction.FETCH_TEAMS_SUCCESS; payload: Team[] }
     | { type: UserPreferenceAvailableAction.FETCH_TEAMS_FAILURE; payload: string }
+    | { type: UserPreferenceAvailableAction.PATCH_USERPREFERENCES_REQUEST }
+    | { type: UserPreferenceAvailableAction.PATCH_USERPREFERENCES_SUCCESS }
+    | { type: UserPreferenceAvailableAction.PATCH_USERPREFERENCES_FAILURE; payload: string }
 
 export type UserPreferenceDispatch = React.Dispatch<UserPreferenceActions>;

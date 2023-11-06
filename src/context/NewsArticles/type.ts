@@ -14,6 +14,7 @@ export interface NewsArticleDetail {
     thumbnail: string;
     date: Date;
     sport: Sport;
+    teams: Team[];
 }
 
 export interface FullArticleDetail {

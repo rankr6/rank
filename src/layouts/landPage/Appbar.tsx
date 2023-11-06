@@ -22,7 +22,7 @@ const Appbar = () => {
       { name: 'Sign up', href: '/signup' },
     ]);
 
-  const [settingsNavigation] = useState([
+  const [settingsNavigation, setSettingsNavigation] = useState([
     { name: 'preference', href: '/userPreference' },
   ]);
 

@@ -48,7 +48,7 @@ const UserPreferences = () => {
             });
         fetchSports(sportDispatch);
         fetchTeams(teamDispatch);
-    }, [sportDispatch, teamDispatch, userPreferenceDispatch]);
+    }, [userPreferenceDispatch,sportDispatch, teamDispatch]);
 
     function closeModal() {
         setIsOpen(false);

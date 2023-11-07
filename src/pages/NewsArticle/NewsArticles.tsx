@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { fetchArticlesDetails, fetchSports } from "../../context/NewsArticles/action";
 import { useNewsArticleDetailDispatch, useNewsArticleState } from "../../context/NewsArticles/context";
 import { NewsArticleDetailState } from "../../context/NewsArticles/type";
@@ -7,6 +7,11 @@ import { Link } from "react-router-dom";
 import './NewsArticles.css';
 import { useUserPreferenceDispatch } from "../../context/Preference/context";
 import { fetchUserPreference } from "../../context/Preference/action";
+
+interface UserPreferences {
+  sports: number[];
+  teams: number[];
+}
 
 const formatDateForPicker = (isoDate: string) => {
   const dateObj = new Date(isoDate);
@@ -19,7 +24,7 @@ const formatDateForPicker = (isoDate: string) => {
 const NewsArticle = () => {
   const state: NewsArticleDetailState = useNewsArticleState();
   const { newsArticleDetails, isLoading, isError, errorMessage } = state;
-  const [userPreferences, setUserPreferences] = useState({ sports: [], teams: [] });
+  const [userPreferences, setUserPreferences] = useState<UserPreferences>({ sports: [], teams: [] });
   const articleDispatch = useNewsArticleDetailDispatch();
   const dispatch = useUserPreferenceDispatch();
   const [selectedSport, setSelectedSport] = useState<string | null>(null);
@@ -39,7 +44,7 @@ const NewsArticle = () => {
     fetchSports(articleDispatch);
   }, [articleDispatch, dispatch]);
 
-  const sportsData = userPreferences.sports || [];
+  const sportsData = userPreferences.sports;
 
   if (isLoading) {
     return <div className="text-left p-4">Loading...</div>;
@@ -48,9 +53,9 @@ const NewsArticle = () => {
   if (isError) {
     return <div className="text-left p-4">{errorMessage}</div>;
   }
-
-  // Filter sports based on user preferences
+  
   const filteredSports = state.sports.filter((sport) => sportsData.includes(Number(sport.id)));
+  
 
   return (
     <div className="text-left content-start p-6 flex-shrink-0 w-full">

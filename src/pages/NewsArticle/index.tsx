@@ -1,6 +1,7 @@
 import React from 'react';
 import NewsArticle from './NewsArticles';
-import FavouriteListArticles from '../FavoriteItem/FavoriteItem';
+import FavoriteSportAndTeam from '../FavoriteItem/FavoriteItem';
+import { PreferenceProvider } from '../../context/Preference/context';
 
 const NewsArticlePage: React.FC = () => {
     return (
@@ -11,7 +12,9 @@ const NewsArticlePage: React.FC = () => {
                 </div>
 
                 <div className="col-span-1">
-                        <FavouriteListArticles />
+                    <PreferenceProvider>
+                        <FavoriteSportAndTeam />
+                    </PreferenceProvider>
                 </div>
             </div>
         </div>

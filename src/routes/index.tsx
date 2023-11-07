@@ -6,7 +6,7 @@ import NotFound from "../pages/Notfound";
 import LandPageLayout from "../layouts/landPage";
 import MatchDetailsContainer from "../pages/LiveScore/MatchDetailContainer";
 import ArticleDetailsContainer from "../pages/NewsArticle/ArticleDetailContainer";
-import UserPreferences from "../pages/UserPreference/UserPreference";
+import UserPreference from "../pages/UserPreference/PreferencesContainer";
 
 
 const router = createBrowserRouter([
@@ -40,7 +40,7 @@ const router = createBrowserRouter([
       },
       {
         path: "userPreference",
-        element: <UserPreferences />
+        element: <UserPreference />
       },
     ]
   },

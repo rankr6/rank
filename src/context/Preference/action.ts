@@ -3,128 +3,81 @@
 import { API_ENDPOINT } from "../../config/constants";
 import { UserPreferenceAvailableAction, UserPreferenceDispatch } from "./type";
 
-export const fetchUserPreferences = async (
-    dispatch: UserPreferenceDispatch,
-) => {
-    try {
-        dispatch({ type: UserPreferenceAvailableAction.FETCH_PREFERENCE_REQUEST });
+export const fetchUserPreference = async (dispatch: UserPreferenceDispatch) => {
+  try {
+    dispatch({ type: UserPreferenceAvailableAction.FETCH_PREFERENCE_REQUEST });
 
-        const authToken = localStorage.getItem("authToken") ?? "";
-        const response = await fetch(
-            `${API_ENDPOINT}/user/preferences`,
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${authToken}`,
-                },
-            }
-        );
+    const authToken = localStorage.getItem("authToken") ?? "";
+    const response = await fetch(`${API_ENDPOINT}/user/preferences`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${authToken}`,
+      },
+    });
 
+    if (response.ok) {
+      const data = await response.json();
 
-        const data = await response.json();
+      dispatch({
+        type: UserPreferenceAvailableAction.FETCH_PREFERENCE_SUCCESS,
+        payload: data.preferences // Make sure that your payload matches the userPreferences state
+      });
 
-        dispatch({
-            type: UserPreferenceAvailableAction.FETCH_PREFERENCE_SUCCESS,
-            payload: data,
-        });
-        console.log(data);
-        return data;
-
-    } catch (error) {
-        console.log("Error fetching matches:", error);
-        dispatch({
-            type: UserPreferenceAvailableAction.FETCH_PREFERENCE_FAILURE,
-            payload: "Unable to load matches",
-        });
+      return data; // Return the entire data object if needed
+    } else {
+      console.log("Error fetching user preferences:", response.status, response.statusText);
+      dispatch({
+        type: UserPreferenceAvailableAction.FETCH_PREFERENCE_FAILURE,
+        payload: "Unable to load user preferences",
+      });
     }
-};
-
-
-export const fetchSports = async (dispatch: UserPreferenceDispatch) => {
-    try {
-        dispatch({ type: UserPreferenceAvailableAction.FETCH_SPORTS_REQUEST });
-        const response = await fetch(`${API_ENDPOINT}/sports`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-        const data = await response.json();
-        dispatch({
-            type: UserPreferenceAvailableAction.FETCH_SPORTS_SUCCESS,
-            payload: data.sports,
-        });
-    } catch (error) {
-        console.log("Error fetching sports:", error);
-        dispatch({
-            type: UserPreferenceAvailableAction.FETCH_SPORTS_FAILURE,
-            payload: "Unable to load sports",
-        });
-    }
-};
-
-export const fetchTeams = async (dispatch: UserPreferenceDispatch) => {
-    try {
-        dispatch({ type: UserPreferenceAvailableAction.FETCH_TEAMS_REQUEST });
-        const response = await fetch(`${API_ENDPOINT}/teams`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-        const data = await response.json();
-        dispatch({
-            type: UserPreferenceAvailableAction.FETCH_TEAMS_SUCCESS,
-            payload: data,
-        });
-
-    } catch (error) {
-        console.log("Error fetching sports:", error);
-        dispatch({
-            type: UserPreferenceAvailableAction.FETCH_TEAMS_FAILURE,
-            payload: "Unable to load sports",
-        });
-    }
+  } catch (error) {
+    console.error("Error fetching user preferences:", error);
+    dispatch({
+      type: UserPreferenceAvailableAction.FETCH_PREFERENCE_FAILURE,
+      payload: "Unable to load user preferences",
+    });
+  }
 };
 
 
 export const patchUserPreference = async (
-    dispatch: UserPreferenceDispatch,
-    sports: any,
-    teams: any,
+  dispatch: UserPreferenceDispatch,
+  sports: any,
+  teams: any,
 ) => {
 
-    const authToken = localStorage.getItem("authToken") ?? "";
+  const authToken = localStorage.getItem("authToken") ?? "";
 
-    try {
-        dispatch({ type: UserPreferenceAvailableAction.PATCH_USERPREFERENCES_REQUEST });
-        const response = await fetch(
-            `${API_ENDPOINT}/user/preferences`,
-            {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${authToken}`,
-                },
-                body: JSON.stringify({
-                    preferences: {
-                        teams: teams,
-                        sports: sports,
-                    },
-                }),
-            }
-        );
+  try {
+    dispatch({ type: UserPreferenceAvailableAction.PATCH_USERPREFERENCES_REQUEST });
+    const response = await fetch(
+      `${API_ENDPOINT}/user/preferences`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authToken}`,
+        },
+        body: JSON.stringify({
+          preferences: {
+            teams: teams,
+            sports: sports,
+          },
+        }),
+      }
+    );
 
-        if (!response.ok) {
-            throw new Error("Failed to create ");
-        }
-        dispatch({ type: UserPreferenceAvailableAction.PATCH_USERPREFERENCES_SUCCESS });
-    } catch (error) {
-        console.error("Operation failed:", error);
-        dispatch({
-            type: UserPreferenceAvailableAction.PATCH_USERPREFERENCES_FAILURE,
-            payload: "Unable to create ",
-        });
+    if (!response.ok) {
+      throw new Error("Failed to create ");
     }
+    dispatch({ type: UserPreferenceAvailableAction.PATCH_USERPREFERENCES_SUCCESS });
+  } catch (error) {
+    console.error("Operation failed:", error);
+    dispatch({
+      type: UserPreferenceAvailableAction.PATCH_USERPREFERENCES_FAILURE,
+      payload: "Unable to create ",
+    });
+  }
 };

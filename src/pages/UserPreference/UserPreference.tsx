@@ -3,8 +3,14 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { useUserPreferenceDispatch, useUserPreferenceState } from "../../context/Preference/context";
 import { UserPreferenceState } from "../../context/Preference/type";
-import { fetchTeams, fetchSports, fetchUserPreferences, patchUserPreference } from "../../context/Preference/action";
+import { fetchUserPreference, patchUserPreference } from "../../context/Preference/action";
 import { useNavigate } from "react-router-dom";
+import { fetchTeams } from "../../context/Team/action";
+import { fetchSports } from "../../context/Sport/action";
+import { useSportDispatch, useSportState } from "../../context/Sport/context";
+import { useTeamDispatch, useTeamState } from "../../context/Team/context";
+import { SportState } from "../../context/Sport/type";
+import { TeamState } from "../../context/Team/type";
 
 
 
@@ -14,29 +20,39 @@ const UserPreferences = () => {
     const [isOpen, setIsOpen] = useState(true);
     const navigate = useNavigate();
     const state: UserPreferenceState = useUserPreferenceState();
+    const stateSport: SportState = useSportState();
+    const stateTeam: TeamState = useTeamState();
     const userPreferenceDispatch = useUserPreferenceDispatch();
+    const sportDispatch = useSportDispatch();
+    const teamDispatch = useTeamDispatch();
     const {
         isLoading,
         isError,
         errorMessage,
-        sports,
-        teams,
     } = state;
 
+    const {
+        sports
+    } = stateSport;
+
+    const {
+        teams
+    } = stateTeam;
+
     useEffect(() => {
-        fetchUserPreferences(userPreferenceDispatch)
+        fetchUserPreference(userPreferenceDispatch)
             .then((data) => {
                 const { sports, teams } = data.preferences;
                 setSelectedSports(sports);
                 setSelectedTeams(teams);
             });
-        fetchSports(userPreferenceDispatch);
-        fetchTeams(userPreferenceDispatch);
-    }, [userPreferenceDispatch]);
+        fetchSports(sportDispatch);
+        fetchTeams(teamDispatch);
+    }, [sportDispatch, teamDispatch, userPreferenceDispatch]);
 
     function closeModal() {
         setIsOpen(false);
-        navigate("/");
+        navigate("/landPage");
     }
 
     if (isLoading) {
@@ -79,8 +95,8 @@ const UserPreferences = () => {
     const handleSavePreferences = () => {
         patchUserPreference(userPreferenceDispatch, selectedSports, selectedTeams);
         console.log('Preferences saved successfully');
-        console.log(selectedSports); // Move console.log here
-        console.log(selectedTeams);  // Move console.log here
+        console.log(selectedSports); 
+        console.log(selectedTeams);  
         closeModal();
     };
 

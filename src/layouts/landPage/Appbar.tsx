@@ -5,13 +5,12 @@ import { useState, Fragment, useEffect } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import CogIcon from "@heroicons/react/24/solid/CogIcon";
 import UserCircleIcon from "@heroicons/react/24/outline/UserCircleIcon";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const classNames = (...classes: string[]): string => classes.filter(Boolean).join(' ');
 
 const Appbar = () => {
   const authenticated = !!localStorage.getItem("authToken");
-  const navigate = useNavigate();
   const [userNavigation, setUserNavigation] = useState(authenticated
     ? [
       { name: 'Profile', href: '#' },
@@ -22,10 +21,7 @@ const Appbar = () => {
       { name: 'Sign up', href: '/signup' },
     ]);
 
-  const [settingsNavigation] = useState([
-    { name: 'preference', href: '/userPreference' },
-  ]);
-
+ 
   const updateUserNavigation = (isAuthenticated: boolean) => {
     const updatedNavigation = isAuthenticated
       ? [
@@ -59,16 +55,17 @@ const Appbar = () => {
                 </div>
               </div>
               <div className="hidden md:flex items-center ml-4 space-x-4">
-                {authenticated && settingsNavigation.length > 0 && (
+                {authenticated && (
                   <div className="relative">
                     <Menu>
                       <Menu.Button
-                        onClick={() => navigate(settingsNavigation[0].href)}
                         className="p-2 text-gray-600 hover:text-blue-600 rounded-full focus:outline-none"
                       >
-                        <CogIcon className="h-6 w-6" aria-hidden="true" />
+                        <Link to="/userPreference">
+                          <CogIcon className="h-6 w-6" aria-hidden="true" />
+                        </Link>
                       </Menu.Button>
-                      <Transition
+                      {/* <Transition
                         as={Fragment}
                         enter="transition ease-out duration-100"
                         enterFrom="transform opacity-0 scale-95"
@@ -87,16 +84,16 @@ const Appbar = () => {
                                     active ? 'bg-gray-100' : '',
                                     'block px-4 py-2 text-sm text-pink-700'
                                   )}
-    
+
                                 >
-                                 
+
                                 </a>
                               )}
                             </Menu.Item>
                           ))}
                         </Menu.Items>
 
-                      </Transition>
+                      </Transition> */}
                     </Menu>
                   </div>
                 )}

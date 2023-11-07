@@ -1,5 +1,6 @@
 import React from 'react';
-import FavouriteListArticles from './FavoriteItem';
+import FavoriteSportAndTeam from './FavoriteItem';
+import { PreferenceProvider } from '../../context/Preference/context';
 // Just import the file
 
 const LPage: React.FC = () => {
@@ -7,7 +8,9 @@ const LPage: React.FC = () => {
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
             <div className="max-w-md w-full px-6 py-8 bg-white rounded-lg shadow-md">
-                <FavouriteListArticles />
+                <PreferenceProvider>
+                    <FavoriteSportAndTeam />
+                </PreferenceProvider>
             </div>
         </div>
     );

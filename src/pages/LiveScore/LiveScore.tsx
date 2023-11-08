@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import { useMatchDispatch, useMatchState } from "../../context/Livescore/context";
 import { fetchMatches } from "../../context/Livescore/action";
@@ -13,6 +14,7 @@ interface UserPreferences {
 }
 
 const MatchList = () => {
+  let filteredSports: any[] = [];
   const state = useMatchState();
   const { matchScores, isLoading, isError, errorMessage } = state;
   const spoState = useSportState();
@@ -45,9 +47,11 @@ const MatchList = () => {
 
   const sportsData = userPreferences.sports;
 
-  const filteredSports = sports.filter((sport) =>
+  filteredSports = sports.filter((sport) =>
     sportsData && sportsData.includes(Number(sport.id))
   );
+
+
 
   if (isLoading) {
     return <span>Loading...</span>;

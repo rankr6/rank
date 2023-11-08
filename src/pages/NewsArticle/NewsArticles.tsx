@@ -1,5 +1,6 @@
+/* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchArticlesDetails, fetchSports } from "../../context/NewsArticles/action";
 import { useNewsArticleDetailDispatch, useNewsArticleState } from "../../context/NewsArticles/context";
 import { NewsArticleDetailState } from "../../context/NewsArticles/type";
@@ -53,9 +54,18 @@ const NewsArticle = () => {
   if (isError) {
     return <div className="text-left p-4">{errorMessage}</div>;
   }
-  
-  const filteredSports = state.sports.filter((sport) => sportsData.includes(Number(sport.id)));
-  
+
+  let filteredSports: any[] = [];
+
+  if (Array.isArray(sportsData)) {
+    filteredSports = state.sports.filter((sports) => {
+      return sportsData.includes(Number(sports.id));
+    });
+    // Use filteredSports as needed
+  } else {
+    // Handle the case where sportsData is not an array
+    console.log('sportsData is not an array');
+  }
 
   return (
     <div className="text-left content-start p-6 flex-shrink-0 w-full">

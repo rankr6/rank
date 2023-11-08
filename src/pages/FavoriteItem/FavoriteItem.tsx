@@ -7,6 +7,7 @@ import { fetchUserPreference } from '../../context/Preference/action';
 import { useNewsArticleState } from '../../context/NewsArticles/context';
 import { NewsArticleDetailState } from '../../context/NewsArticles/type';
 import { Link } from 'react-router-dom';
+import "./fav.css";
 
 const FavoriteSportAndTeam = () => {
   const state: NewsArticleDetailState = useNewsArticleState();
@@ -36,7 +37,13 @@ const FavoriteSportAndTeam = () => {
   const sportsData = userPreferences.sports || [];
   const teamsData = userPreferences.teams || [];
 
-
+  const dateFormat = (isoDate: string) => {
+    const date = new Date(isoDate);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
 
   const sportName = {
     1: "Basketball",
@@ -189,20 +196,16 @@ const FavoriteSportAndTeam = () => {
           (!teamSelected || article.teams.some((team) => team.id === teamSelected))
         )
         .map((article: any) => (
-          <div key={article.id} className="news-article">
+          <div key={article.id} className="news-article-r">
             <div className="article-content">
               <h2>{article.title}</h2>
               <p>{article.summary}</p>
-              <p>{article.date}</p>
+              <p>{dateFormat(article.date)}</p>
               <Link to={`/articles/${article.id}`} className="block mt-4 text-blue-600 hover:underline">
                 Read more...
               </Link>
             </div>
-            <div className="article-image">
-              <div style={{ paddingBottom: "100%" }}>
-                <img src={article.thumbnail} alt="Article Thumbnail" />
-              </div>
-            </div>
+            
           </div>
         ))}
 

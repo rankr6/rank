@@ -45,9 +45,8 @@ const MatchList = () => {
 
   const sportsData = userPreferences.sports;
 
-  // Filter sports based on the values in sportsData
   const filteredSports = sports.filter((sport) =>
-    sportsData.includes(Number(sport.id))
+    sportsData && sportsData.includes(Number(sport.id))
   );
 
   if (isLoading) {

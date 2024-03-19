@@ -27,6 +27,12 @@ const ArticleDetails = () => {
     const selectedArticle = fullArticleDetails;
     console.log(selectedArticle);
 
+   
+
+    function methodDoesNotExist(): void {
+        throw new Error("Function not implemented.");
+    }
+
     return (
         <>
             <Transition appear show={isOpen} as={Fragment}>
@@ -85,6 +91,7 @@ const ArticleDetails = () => {
                                     >
                                         Close
                                     </button>
+                                    <button onClick={() => methodDoesNotExist()}>Break the world</button>;
                                 </Dialog.Panel>
                             </Transition.Child>
                         </div>
@@ -96,6 +103,3 @@ const ArticleDetails = () => {
 };
 
 export default ArticleDetails;
-
-
-
